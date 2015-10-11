@@ -14,18 +14,19 @@ import code.challenge.velocity.dao.CustomerRecordDao;
 import code.challenge.velocity.model.CustomerRecord;
 
 /**
- * Root resource (exposed at "customer" path)
+ * This class is the Root resource (exposed at "CustomerRecords" path)
+ * 
+ * @author aaron
  */
-@Path("/customer")
+@Path("/CustomerRecords")
 public class CustomerRecordResource {
 	
 	CustomerRecordDao customerRecordDao = new CustomerRecordDao();
 	
     /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "JSON" media type.
+     * Method handling HTTP GET requests.
      *
-     * @return String
+     * @return List<CustomerRecord>
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,20 +35,33 @@ public class CustomerRecordResource {
     }
 	
     /**
-     * Method handling HTTP POST requests. The returned object will be sent
-     * to the client as "JSON" media type.
+     * Method handling HTTP POST requests. 
      *
-     * @return A list of Customer Records
+     * @return Response
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomerRecords(List<CustomerRecord> customerRecords) {
-        
-    	for(CustomerRecord customerRecord : customerRecords){
-    		customerRecordDao.addCustomerRecord(customerRecord);
-    	}
     	
-    	return Response.status(200).entity("Created").build();
+    	Response response;
+    	if(null != customerRecords && !customerRecords.isEmpty()) {
+    		for(CustomerRecord customerRecord : customerRecords) {
+	    		customerRecordDao.addCustomerRecord(customerRecord);
+	    	}
+    		response = Response.status(201).entity("Customer Records Added").build();
+    	}
+    	else {
+	    	response = Response.status(400).entity("No records to add").build();
+    	}
+    	return response;
+    }
+    
+    /**
+     * Method to facilitate mocking dao for testing
+     * @param dao
+     */
+    public void setCustomerRecordDao(CustomerRecordDao dao){
+    	customerRecordDao = dao;
     }
 	
 }

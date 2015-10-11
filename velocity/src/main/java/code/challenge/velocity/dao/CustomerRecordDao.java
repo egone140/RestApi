@@ -9,10 +9,20 @@ import org.hibernate.Transaction;
 import code.challenge.velocity.model.CustomerRecord;
 import code.challenge.velocity.utils.HibernateUtil;
 
-
+/**
+ * Class to handle communication the database
+ * 
+ * @author aaron
+ */
 public class CustomerRecordDao {
 	
-	public void addCustomerRecord(CustomerRecord customerRecord) {
+	/**
+	 * This method add a CustomerRecord to the database
+	 * 
+	 * @param customerRecord
+	 * @return customerRecord
+	 */
+	public CustomerRecord addCustomerRecord(CustomerRecord customerRecord) {
         Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
@@ -28,10 +38,15 @@ public class CustomerRecordDao {
             session.flush();
             session.close();
         }
+        return customerRecord;
     }
 
 
-
+	/**
+	 * This method retrieves all CustomerRecords
+	 * 
+	 * @return customerRecords
+	 */
     @SuppressWarnings("unchecked")
 	public List<CustomerRecord> getAllCustomerRecords() {
         List<CustomerRecord> customerRecords = new ArrayList<CustomerRecord>();
@@ -48,40 +63,4 @@ public class CustomerRecordDao {
         }
         return customerRecords;
     }
-
-    public CustomerRecord getCustomerRecordsById(int userId) {
-    	CustomerRecord customerRecord = null;
-        Transaction trns = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            trns = session.beginTransaction();
-            customerRecord = session.get(CustomerRecord.class, userId);
-            
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return customerRecord;
-    }
-	
-//	/**
-//	 * 
-//	 * @return CustomerRecords
-//	 */
-//	public List<CustomerRecord> getAllCustomerRecords(){
-//		
-//		//Temp return stuff until postgres working
-//		CustomerRecord c1 = new CustomerRecord("John", "Doe", "j.doe@example.com", "1 Main Street");
-//		CustomerRecord c2 = new CustomerRecord("Jane", "Jone", "j.jones@example.com", "2 North Street");
-//		
-//		List<CustomerRecord> customerRecords = new ArrayList<>();
-//		customerRecords.add(c1);
-//		customerRecords.add(c2);
-//		
-//		return customerRecords;
-//		
-//	}
-
 }
