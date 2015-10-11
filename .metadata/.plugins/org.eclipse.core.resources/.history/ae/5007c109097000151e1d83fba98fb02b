@@ -1,0 +1,5 @@
+package code.challenge.velocity.model;
+
+public class CustomerRecord {
+
+}
