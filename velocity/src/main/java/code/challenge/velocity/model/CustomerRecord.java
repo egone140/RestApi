@@ -2,11 +2,18 @@ package code.challenge.velocity.model;
 
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class CustomerRecord {
 	
-	//{"firstName":"John", "lastName":"Doe", "email":"j.doe@velocity.com", "address":"1 Main Street"},
-	private UUID id;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -21,14 +28,13 @@ public class CustomerRecord {
 	
 	/**
 	 * 
-	 * @param id
+	 * @param userid
 	 * @param firstName
 	 * @param lastName
 	 * @param email
 	 * @param address
 	 */
-	public CustomerRecord(UUID id, String firstName, String lastName, String email, String address) {
-		this.id = id;
+	public CustomerRecord(String firstName, String lastName, String email, String address) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -36,12 +42,13 @@ public class CustomerRecord {
 	}
 	
 	
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(UUID id) {
+ 
+	public void setId(Long id) {
 		this.id = id;
-	}
+	} 	
 	
 	
 	public String getFirstName() {
